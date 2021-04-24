@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>level2</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #outer {
+            position: relative;
+            width: 1100px;
+            height: 550px;
+            margin: 20px auto;
+        }
+
+        #container-tuijian {
+            display: flex;
+            flex-wrap: wrap;
+            position: absolute;
+            margin: 10px 50px;
+            width: 1050px;
+            height: 500px;
+            border-top: solid 3px red;
+        }
+
+        #container-tuijian-font {
+            position: relative;
+            margin: 5px 100px;
+            font-size: 20px;
+            width: 100px;
+            height: 10px;
+        }
+
+        img {
+            margin-top: 20px;
+            width: 190px;
+            height: 180px;
+            border-radius: 5px;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <p>封装一个方法来调接口，并展现数据，改写level1推荐歌单，点击button查看结果</p>
+    <input type="button" value="点击查看返回结果" id="button">
+    <div id="outer">
+        <div id="container-tuijian-font">热门推荐</div>
+        <div id="container-tuijian">
+
+        </div>
+    </div>
+    <script src="level2.js"></script>
+    <script>
+        const tuijian = document.getElementById("container-tuijian")
+        let btn = document.getElementById("button")
+        btn.onclick = function() {
+            tuijian.innerText="";
+            //封装了ajax方法在myAjax函数中
+            ajax("http://musicapi.leanapp.cn/personalized")
+        }
+    </script>
+</body>
+
+</html>

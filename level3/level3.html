@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>level3</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #outer {
+            position: relative;
+            width: 1100px;
+            height: 550px;
+            margin: 20px auto;
+        }
+
+        #container-tuijian {
+            display: flex;
+            flex-wrap: wrap;
+            position: absolute;
+            margin: 10px 50px;
+            width: 1050px;
+            height: 500px;
+            border-top: solid 3px red;
+        }
+
+        #container-tuijian-font {
+            position: relative;
+            margin: 5px 100px;
+            font-size: 20px;
+            width: 100px;
+            height: 10px;
+        }
+
+        img {
+            margin-top: 20px;
+            width: 190px;
+            height: 180px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>封装一个对象来调接口，并展现数据level1中推荐歌单的数据</h3>
+    <button id="get">开始请求</button>
+    <div id="outer">
+        <div id="container-tuijian-font">热门推荐</div>
+        <div id="container-tuijian"></div>
+    </div>
+    <script src="level3.js"></script>
+</body>
+
+</html>

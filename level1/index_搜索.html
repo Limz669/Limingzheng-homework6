@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>level1_搜索</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #center {
+            position: relative;
+            margin: 10px auto;
+            width: 100%;
+            height: 550px;
+        }
+
+        #search {
+            position: absolute;
+            display: flex;
+            top: 10px;
+            left: 30%;
+        }
+
+        #input1 {
+            width: 400px;
+            height: 28px;
+            font-size: 16px;
+            padding-left: 5px;
+        }
+
+        #input2 {
+            width: 60px;
+            height: 32px;
+            font-size: 18px;
+            padding: 0px 5px;
+            padding-bottom: 5px;
+        }
+
+        #middle {
+            position: absolute;
+            display: flex;
+            top: 60px;
+            min-width: 100%;
+        }
+
+        #title {
+            min-width: 400px;
+            padding-left: 100px;
+            padding-right: 200px;
+        }
+
+        #singer {
+            min-width: 50px;
+            padding-right: 270px;
+        }
+
+        #album {
+            min-width: 50px;
+        }
+
+        #result {
+            position: absolute;
+            top: 90px;
+            min-width: 100%;
+            height: 460px;
+            border: solid 1px gray;
+            overflow: scroll;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="center">
+        <div id="search">
+            <input type="text" name="" id="input1" >
+            <input type="button" value="搜索" id="input2">
+        </div>
+        <div id="middle">
+            <div id="title">音乐标题</div>
+            <div id="singer">歌手</div>
+            <div id="album">专辑</div>
+        </div>
+        <div id="result">
+        </div>
+    </div>
+    <script>
+        let in1 = document.getElementById("input1");
+        let in2 = document.getElementById("input2");
+        let rst = document.getElementById("result");
+        in2.addEventListener('click', () => {
+            rst.innerText = "";
+            //实例化XMLHttpRequest对象
+            const xhr = new XMLHttpRequest()
+            //初始化一个get请求
+            xhr.open("get", "http://musicapi.leanapp.cn/search?keywords=" + in1.value, true)
+            //接收返回值
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                        const res = JSON.parse(xhr.responseText)
+                        console.log(res)
+                        console.log("请求成功")
+                        // do something
+                        let ul = document.getElementsByTagName("ul");
+                        for (let i = 0; i < 30; i++) {
+                            let div = document.createElement("div");
+                            let singname = document.createElement("div");
+                            let singername = document.createElement("div");
+                            let albumname = document.createElement("div");
+
+                            let str = document.createElement("div");
+                            if ((i + 1) < 10) {
+                                str.innerText = '0' + (i + 1);
+                            } else {
+                                str.innerText = i + 1;
+                            }
+                            str.style.marginLeft = "10px"
+                            div.appendChild(str)
+
+                            let len1 = res.result.songs[i].name + ""
+                            // console.log(len1.length);
+                            singname.style.minWidth = "600px"
+                            singname.style.marginLeft = "70px"
+                            singname.innerText = res.result.songs[i].name
+
+                            div.appendChild(singname)
+
+                            singername.style.minWidth = "320px"
+                            singername.innerText = res.result.songs[i].artists[0].name;
+                            div.appendChild(singername)
+
+                            albumname.style.minWidth = "600px"
+                            albumname.innerText = res.result.songs[i].album.name;
+                            div.appendChild(albumname)
+
+                            if (i % 2 != 0) {
+                                div.style.backgroundColor = "rgb(249,249,246)"
+                            } else {
+                                div.style.backgrosundColor = "white"
+                            }
+                            div.style.display = "flex"
+                            div.style.minHeight = "30px"
+                            div.style.minWidth = "100%"
+                            div.style.paddingTop = "5px"
+                            div.style.fontSize = "15px"
+                            rst.appendChild(div);
+                        }
+                    } else {
+                        console.log("请求失败")
+                    }
+                }
+            }
+            //发送请求
+            xhr.send()
+        })
+        in1.addEventListener("keyup", (event)=>{
+            event.preventDefault();
+            if (event.keyCode == 13) {
+                rst.innerText = "";
+                //实例化XMLHttpRequest对象
+                const xhr = new XMLHttpRequest()
+                //初始化一个get请求
+                xhr.open("get", "http://musicapi.leanapp.cn/search?keywords=" + in1.value, true)
+                //接收返回值
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4) {
+                        if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                            const res = JSON.parse(xhr.responseText)
+                            console.log(res)
+                            console.log("请求成功")
+                            // do something
+                            let ul = document.getElementsByTagName("ul");
+                            for (let i = 0; i < 30; i++) {
+                                let div = document.createElement("div");
+                                let singname = document.createElement("div");
+                                let singername = document.createElement("div");
+                                let albumname = document.createElement("div");
+
+
+                                let str = document.createElement("div");
+                                if ((i + 1) < 10) {
+                                    str.innerText = '0' + (i + 1);
+                                } else {
+                                    str.innerText = i + 1;
+                                }
+                                str.style.marginLeft = "10px"
+                                div.appendChild(str)
+
+                                let len1 = res.result.songs[i].name + ""
+                                console.log(len1.length);
+                                singname.style.minWidth = "600px"
+                                singname.style.marginLeft = "70px"
+                                singname.innerText = res.result.songs[i].name
+
+                                div.appendChild(singname)
+
+                                singername.style.minWidth = "320px"
+                                singername.innerText = res.result.songs[i].artists[0].name;
+                                div.appendChild(singername)
+
+                                albumname.style.minWidth = "600px"
+                                albumname.innerText = res.result.songs[i].album.name;
+                                div.appendChild(albumname)
+
+                                if (i % 2 != 0) {
+                                    div.style.backgroundColor = "rgb(249,249,246)"
+                                } else {
+                                    div.style.backgrosundColor = "white"
+                                }
+                                div.style.display = "flex"
+                                div.style.minHeight = "30px"
+                                div.style.minWidth = "100%"
+                                div.style.paddingTop = "5px"
+                                div.style.fontSize = "15px"
+                                rst.appendChild(div);
+                            }
+                        } else {
+                            console.log("请求失败")
+                        }
+                    }
+                }
+                //发送请求
+                xhr.send()
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>level1_推荐歌单</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #outer {
+            position: relative;
+            width: 1100px;
+            height: 550px;
+            margin: 20px auto;
+        }
+
+        #container-tuijian {
+            display: flex;
+            flex-wrap: wrap;
+            position: absolute;
+            margin: 10px 50px;
+            width: 1050px;
+            height: 500px;
+            border-top: solid 3px red;
+        }
+
+        #container-tuijian-font {
+            position: relative;
+            margin: 5px 100px;
+            font-size: 20px;
+            width: 100px;
+            height: 10px;
+        }
+
+        img{
+            margin-top: 20px;
+            width: 190px;
+            height: 180px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="outer">
+        <div id="container-tuijian-font">热门推荐</div>
+        <div id="container-tuijian">
+            
+        </div>
+    </div>
+    <script>
+        const tuijian = document.getElementById("container-tuijian")
+        window.onload = () => {
+            //实例化XMLHttpRequest对象
+            const xhr = new XMLHttpRequest()
+            //初始化一个get请求
+            xhr.open("get", "http://musicapi.leanapp.cn/personalized", true)
+            //接收返回值
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+                        const res = JSON.parse(xhr.responseText)
+                        console.log("请求成功")
+                        console.log(res);
+                        // do something
+                        for(let i=0;i<10;i++){
+                            const div=document.createElement("div");
+                            const name=document.createElement("span");
+                            let numspan=document.createElement("p");
+                            const img=new Image();   
+                            let num;
+                            num=res.result[i].playCount;
+                            num=Math.round(num/10000);                      
+                            div.style.width="190px"
+                            div.style.height="250px"
+                            div.style.margin="10px"
+                            let nums
+                            if(num>9999){
+                                num=Math.round(num/10000);
+                                nums=num.toString()+'亿'
+                            }else{
+                                nums=num.toString()+'万'
+                            }                            
+                            numspan.innerText=nums
+                            numspan.style.textAlign="center"
+                            numspan.style.width="45px"
+                            numspan.style.color="white"
+                            numspan.style.fontSize="10px"
+                            numspan.style.position="relative"
+                            numspan.style.top="40px"
+                            numspan.style.left="145px"
+                            div.appendChild(numspan);
+                            img.src = res.result[i].picUrl;
+                            div.appendChild(img);
+                            name.innerText=res.result[i].name;
+                            div.appendChild(name);
+                            tuijian.appendChild(div);
+                        }
+                    } else {
+                        console.log("请求失败")
+                    }
+                }
+            }
+            //发送请求
+            xhr.send()
+        }
+    </script>
+</body>
+
+</html>
